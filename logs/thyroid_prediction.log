@@ -1,0 +1,253 @@
+2025-10-23 21:54:27,860 - __main__ - INFO - Starting preprocessing pipeline
+2025-10-23 21:54:27,875 - __main__ - INFO - Data loaded successfully
+2025-10-23 21:54:27,876 - __main__ - INFO - Loaded data: 383 rows, 17 columns
+2025-10-23 21:54:27,876 - __main__ - INFO - 
+Dataset Info:
+2025-10-23 21:54:27,889 - __main__ - INFO - None
+2025-10-23 21:54:27,889 - __main__ - INFO - 
+Missing Values:
+2025-10-23 21:54:27,890 - __main__ - INFO - Age                     0
+Gender                  0
+Smoking                 0
+Hx Smoking              0
+Hx Radiothreapy         0
+Thyroid Function        0
+Physical Examination    0
+Adenopathy              0
+Pathology               0
+Focality                0
+Risk                    0
+T                       0
+N                       0
+M                       0
+Stage                   0
+Response                0
+Recurred                0
+dtype: int64
+2025-10-23 21:54:27,892 - __main__ - INFO - Data cleaning completed successfully
+2025-10-23 21:54:27,892 - __main__ - INFO - Cleaned data shape: (383, 17)
+2025-10-23 21:54:27,898 - __main__ - INFO - Features and target separated successfully
+2025-10-23 21:54:27,898 - __main__ - INFO - Features shape: (383, 16), Target shape: (383,)
+2025-10-23 21:54:27,903 - __main__ - INFO - Target distribution: Recurred
+0    0.718016
+1    0.281984
+Name: proportion, dtype: float64
+2025-10-23 21:54:27,903 - __main__ - INFO - Preprocessing pipeline defined successfully
+2025-10-23 21:54:27,909 - __main__ - INFO - Data split completed successfully
+2025-10-23 21:54:27,911 - __main__ - INFO - Train split: 306 samples (Recurred
+0    0.718954
+1    0.281046
+Name: proportion, dtype: float64)
+2025-10-23 21:54:27,913 - __main__ - INFO - Test split: 77 samples (Recurred
+0    0.714286
+1    0.285714
+Name: proportion, dtype: float64)
+2025-10-23 21:54:27,940 - __main__ - INFO - Data transformation completed successfully
+2025-10-23 21:54:27,940 - __main__ - INFO - Processed train shape: (306, 40)
+2025-10-23 21:54:27,941 - __main__ - INFO - Processed test shape: (77, 40)
+2025-10-23 21:54:27,963 - __main__ - INFO - Processed files saved successfully!
+2025-10-23 21:54:27,963 - __main__ - INFO - Preprocessing pipeline completed successfully
+2025-10-23 22:00:34,791 - preprocess - INFO - Starting multi-model training pipeline
+2025-10-23 22:00:34,909 - preprocess - INFO - Processed data loaded successfully
+2025-10-23 22:00:34,909 - preprocess - INFO - Train: (306, 40), Test: (77, 40)
+2025-10-23 22:00:34,909 - preprocess - INFO - Training LogisticRegression...
+2025-10-23 22:00:34,997 - preprocess - INFO - LogisticRegression - Test AUC: 0.9926, Test F1: 0.9608, CV F1: 0.9510 (+/- 0.0456)
+2025-10-23 22:00:34,997 - preprocess - INFO - Training DecisionTree...
+2025-10-23 22:00:35,047 - preprocess - INFO - DecisionTree - Test AUC: 0.9273, Test F1: 0.9355, CV F1: 0.9311 (+/- 0.0376)
+2025-10-23 22:00:35,048 - preprocess - INFO - Training RandomForest...
+2025-10-23 22:00:36,450 - preprocess - INFO - RandomForest - Test AUC: 0.9934, Test F1: 0.9601, CV F1: 0.9598 (+/- 0.0509)
+2025-10-23 22:00:36,450 - preprocess - INFO - Training SVC...
+2025-10-23 22:00:36,577 - preprocess - INFO - SVC - Test AUC: 0.9802, Test F1: 0.9608, CV F1: 0.9670 (+/- 0.0304)
+2025-10-23 22:00:36,577 - preprocess - INFO - Training KNN...
+2025-10-23 22:00:37,013 - preprocess - INFO - KNN - Test AUC: 0.9719, Test F1: 0.9473, CV F1: 0.9324 (+/- 0.0507)
+2025-10-23 22:00:37,015 - preprocess - INFO - Training GaussianNB...
+2025-10-23 22:00:37,066 - preprocess - INFO - GaussianNB - Test AUC: 0.9798, Test F1: 0.9195, CV F1: 0.9100 (+/- 0.0626)
+2025-10-23 22:00:37,074 - preprocess - INFO - Model comparison saved to C:\Users\Harpreet\Desktop\Problem Statements\6_Thyroid_Reoccurence_Prediction\models\model_comparison.csv
+2025-10-23 22:00:37,074 - preprocess - INFO - Best model: RandomForest with AUC: 0.9934
+2025-10-23 22:00:37,164 - preprocess - INFO - Best model (RandomForest) saved successfully to C:\Users\Harpreet\Desktop\Problem Statements\6_Thyroid_Reoccurence_Prediction\models\best_model.pkl and C:\Users\Harpreet\Desktop\Problem Statements\6_Thyroid_Reoccurence_Prediction\models\RandomForest_model.pkl
+2025-10-23 22:00:37,164 - preprocess - INFO - Multi-model training pipeline completed successfully
+2025-10-23 22:04:11,457 - preprocess - INFO - Starting multi-model training pipeline
+2025-10-23 22:04:11,478 - preprocess - INFO - Processed data loaded successfully
+2025-10-23 22:04:11,478 - preprocess - INFO - Train: (306, 40), Test: (77, 40)
+2025-10-23 22:04:11,480 - preprocess - INFO - Training LogisticRegression...
+2025-10-23 22:04:11,554 - preprocess - INFO - LogisticRegression - Test AUC: 0.9926, Test F1: 0.9608, CV F1: 0.9510 (+/- 0.0456)
+2025-10-23 22:04:11,554 - preprocess - INFO - LogisticRegression Classification Report:
+              precision    recall  f1-score   support
+
+          No       0.96      0.98      0.97        55
+         Yes       0.95      0.91      0.93        22
+
+    accuracy                           0.96        77
+   macro avg       0.96      0.95      0.95        77
+weighted avg       0.96      0.96      0.96        77
+
+2025-10-23 22:04:11,556 - preprocess - INFO - LogisticRegression Confusion Matrix:
+[[54  1]
+ [ 2 20]]
+2025-10-23 22:04:11,556 - preprocess - INFO - Training DecisionTree...
+2025-10-23 22:04:11,607 - preprocess - INFO - DecisionTree - Test AUC: 0.9273, Test F1: 0.9355, CV F1: 0.9311 (+/- 0.0376)
+2025-10-23 22:04:11,607 - preprocess - INFO - DecisionTree Classification Report:
+              precision    recall  f1-score   support
+
+          No       0.96      0.95      0.95        55
+         Yes       0.87      0.91      0.89        22
+
+    accuracy                           0.94        77
+   macro avg       0.92      0.93      0.92        77
+weighted avg       0.94      0.94      0.94        77
+
+2025-10-23 22:04:11,609 - preprocess - INFO - DecisionTree Confusion Matrix:
+[[52  3]
+ [ 2 20]]
+2025-10-23 22:04:11,609 - preprocess - INFO - Training RandomForest...
+2025-10-23 22:04:12,775 - preprocess - INFO - RandomForest - Test AUC: 0.9934, Test F1: 0.9601, CV F1: 0.9598 (+/- 0.0509)
+2025-10-23 22:04:12,775 - preprocess - INFO - RandomForest Classification Report:
+              precision    recall  f1-score   support
+
+          No       0.95      1.00      0.97        55
+         Yes       1.00      0.86      0.93        22
+
+    accuracy                           0.96        77
+   macro avg       0.97      0.93      0.95        77
+weighted avg       0.96      0.96      0.96        77
+
+2025-10-23 22:04:12,775 - preprocess - INFO - RandomForest Confusion Matrix:
+[[55  0]
+ [ 3 19]]
+2025-10-23 22:04:12,775 - preprocess - INFO - Training SVC...
+2025-10-23 22:04:12,880 - preprocess - INFO - SVC - Test AUC: 0.9802, Test F1: 0.9608, CV F1: 0.9670 (+/- 0.0304)
+2025-10-23 22:04:12,882 - preprocess - INFO - SVC Classification Report:
+              precision    recall  f1-score   support
+
+          No       0.96      0.98      0.97        55
+         Yes       0.95      0.91      0.93        22
+
+    accuracy                           0.96        77
+   macro avg       0.96      0.95      0.95        77
+weighted avg       0.96      0.96      0.96        77
+
+2025-10-23 22:04:12,882 - preprocess - INFO - SVC Confusion Matrix:
+[[54  1]
+ [ 2 20]]
+2025-10-23 22:04:12,882 - preprocess - INFO - Training KNN...
+2025-10-23 22:04:13,149 - preprocess - INFO - KNN - Test AUC: 0.9719, Test F1: 0.9473, CV F1: 0.9324 (+/- 0.0507)
+2025-10-23 22:04:13,151 - preprocess - INFO - KNN Classification Report:
+              precision    recall  f1-score   support
+
+          No       0.95      0.98      0.96        55
+         Yes       0.95      0.86      0.90        22
+
+    accuracy                           0.95        77
+   macro avg       0.95      0.92      0.93        77
+weighted avg       0.95      0.95      0.95        77
+
+2025-10-23 22:04:13,151 - preprocess - INFO - KNN Confusion Matrix:
+[[54  1]
+ [ 3 19]]
+2025-10-23 22:04:13,151 - preprocess - INFO - Training GaussianNB...
+2025-10-23 22:04:13,202 - preprocess - INFO - GaussianNB - Test AUC: 0.9798, Test F1: 0.9195, CV F1: 0.9100 (+/- 0.0626)
+2025-10-23 22:04:13,203 - preprocess - INFO - GaussianNB Classification Report:
+              precision    recall  f1-score   support
+
+          No       0.92      0.98      0.95        55
+         Yes       0.94      0.77      0.85        22
+
+    accuracy                           0.92        77
+   macro avg       0.93      0.88      0.90        77
+weighted avg       0.92      0.92      0.92        77
+
+2025-10-23 22:04:13,203 - preprocess - INFO - GaussianNB Confusion Matrix:
+[[54  1]
+ [ 5 17]]
+2025-10-23 22:04:13,208 - preprocess - INFO - Model comparison saved to C:\Users\Harpreet\Desktop\Problem Statements\6_Thyroid_Reoccurence_Prediction\models\model_comparison.csv
+2025-10-23 22:04:13,224 - preprocess - INFO - Best model: RandomForest with AUC: 0.9934
+2025-10-23 22:04:13,306 - preprocess - INFO - Best model (RandomForest) saved successfully to C:\Users\Harpreet\Desktop\Problem Statements\6_Thyroid_Reoccurence_Prediction\models\best_model.pkl and C:\Users\Harpreet\Desktop\Problem Statements\6_Thyroid_Reoccurence_Prediction\models\RandomForest_model.pkl
+2025-10-23 22:04:13,307 - preprocess - INFO - Multi-model training pipeline completed successfully
+2025-10-23 22:08:05,369 - preprocess - INFO - Starting Flask web app
+2025-10-23 22:08:05,449 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.31.119:5000
+2025-10-23 22:08:05,449 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-23 22:08:05,488 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-23 22:08:08,563 - preprocess - INFO - Starting Flask web app
+2025-10-23 22:08:08,588 - werkzeug - WARNING -  * Debugger is active!
+2025-10-23 22:08:08,599 - werkzeug - INFO -  * Debugger PIN: 736-561-590
+2025-10-23 22:08:17,586 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Harpreet\\anaconda3\\Lib\\site-packages\\jinja2\\loaders.py', reloading
+2025-10-23 22:08:17,604 - werkzeug - INFO - 127.0.0.1 - - [23/Oct/2025 22:08:17] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2025-10-23 22:08:18,092 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-23 22:08:22,520 - preprocess - INFO - Starting Flask web app
+2025-10-23 22:08:22,545 - werkzeug - WARNING -  * Debugger is active!
+2025-10-23 22:08:22,559 - werkzeug - INFO -  * Debugger PIN: 736-561-590
+2025-10-23 22:08:22,754 - werkzeug - INFO - 127.0.0.1 - - [23/Oct/2025 22:08:22] "GET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-10-23 22:08:22,759 - werkzeug - INFO - 127.0.0.1 - - [23/Oct/2025 22:08:22] "GET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-10-23 22:08:22,851 - werkzeug - INFO - 127.0.0.1 - - [23/Oct/2025 22:08:22] "GET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-10-23 22:08:22,889 - werkzeug - INFO - 127.0.0.1 - - [23/Oct/2025 22:08:22] "[36mGET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-10-23 22:09:34,999 - preprocess - INFO - Starting Flask web app
+2025-10-23 22:09:35,049 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.31.119:5000
+2025-10-23 22:09:35,050 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-23 22:09:35,069 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-23 22:09:37,968 - preprocess - INFO - Starting Flask web app
+2025-10-23 22:09:37,990 - werkzeug - WARNING -  * Debugger is active!
+2025-10-23 22:09:37,992 - werkzeug - INFO -  * Debugger PIN: 736-561-590
+2025-10-23 22:09:38,334 - werkzeug - INFO - 127.0.0.1 - - [23/Oct/2025 22:09:38] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2025-10-23 22:09:38,582 - werkzeug - INFO - 127.0.0.1 - - [23/Oct/2025 22:09:38] "[36mGET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-10-23 22:09:38,589 - werkzeug - INFO - 127.0.0.1 - - [23/Oct/2025 22:09:38] "[36mGET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-10-23 22:09:38,647 - werkzeug - INFO - 127.0.0.1 - - [23/Oct/2025 22:09:38] "[36mGET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-10-23 22:13:59,061 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Harpreet\\Desktop\\Problem Statements\\6_Thyroid_Reoccurence_Prediction\\src\\app.py', reloading
+2025-10-23 22:13:59,061 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Harpreet\\Desktop\\Problem Statements\\6_Thyroid_Reoccurence_Prediction\\src\\app.py', reloading
+2025-10-23 22:14:00,194 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-23 22:14:34,622 - preprocess - INFO - Starting Flask web app
+2025-10-23 22:14:34,667 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.31.119:5000
+2025-10-23 22:14:34,667 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-23 22:14:34,683 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-23 22:14:37,437 - preprocess - INFO - Starting Flask web app
+2025-10-23 22:14:37,457 - werkzeug - WARNING -  * Debugger is active!
+2025-10-23 22:14:37,463 - werkzeug - INFO -  * Debugger PIN: 736-561-590
+2025-10-23 22:14:42,260 - werkzeug - INFO - 127.0.0.1 - - [23/Oct/2025 22:14:42] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2025-10-23 22:14:42,463 - werkzeug - INFO - 127.0.0.1 - - [23/Oct/2025 22:14:42] "[36mGET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-10-23 22:14:42,466 - werkzeug - INFO - 127.0.0.1 - - [23/Oct/2025 22:14:42] "[36mGET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-10-23 22:14:42,535 - werkzeug - INFO - 127.0.0.1 - - [23/Oct/2025 22:14:42] "[36mGET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-10-23 22:15:54,283 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Harpreet\\Desktop\\Problem Statements\\6_Thyroid_Reoccurence_Prediction\\src\\app.py', reloading
+2025-10-23 22:15:54,284 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Harpreet\\Desktop\\Problem Statements\\6_Thyroid_Reoccurence_Prediction\\src\\app.py', reloading
+2025-10-23 22:15:54,284 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Harpreet\\Desktop\\Problem Statements\\6_Thyroid_Reoccurence_Prediction\\src\\app.py', reloading
+2025-10-23 22:15:55,008 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-23 22:16:02,483 - preprocess - INFO - Starting Flask web app
+2025-10-23 22:16:02,545 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.31.119:5000
+2025-10-23 22:16:02,545 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-23 22:16:02,564 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-23 22:16:05,230 - preprocess - INFO - Starting Flask web app
+2025-10-23 22:16:05,245 - werkzeug - WARNING -  * Debugger is active!
+2025-10-23 22:16:05,266 - werkzeug - INFO -  * Debugger PIN: 736-561-590
+2025-10-23 22:16:20,783 - werkzeug - INFO - 192.168.31.119 - - [23/Oct/2025 22:16:20] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2025-10-23 22:16:20,991 - werkzeug - INFO - 192.168.31.119 - - [23/Oct/2025 22:16:20] "GET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-10-23 22:16:21,017 - werkzeug - INFO - 192.168.31.119 - - [23/Oct/2025 22:16:21] "GET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-10-23 22:16:21,110 - werkzeug - INFO - 192.168.31.119 - - [23/Oct/2025 22:16:21] "GET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-10-23 22:17:53,149 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Harpreet\\Desktop\\Problem Statements\\6_Thyroid_Reoccurence_Prediction\\src\\app.py', reloading
+2025-10-23 22:17:53,151 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Harpreet\\Desktop\\Problem Statements\\6_Thyroid_Reoccurence_Prediction\\src\\app.py', reloading
+2025-10-23 22:17:53,932 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-23 22:17:59,858 - preprocess - INFO - Model and preprocessor loaded successfully
+2025-10-23 22:17:59,865 - preprocess - INFO - Starting Flask web app
+2025-10-23 22:17:59,909 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.31.119:5000
+2025-10-23 22:17:59,909 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-23 22:17:59,922 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-10-23 22:18:03,000 - preprocess - INFO - Model and preprocessor loaded successfully
+2025-10-23 22:18:03,003 - preprocess - INFO - Starting Flask web app
+2025-10-23 22:18:03,038 - werkzeug - WARNING -  * Debugger is active!
+2025-10-23 22:18:03,051 - werkzeug - INFO -  * Debugger PIN: 736-561-590
+2025-10-23 22:18:03,122 - werkzeug - INFO - 127.0.0.1 - - [23/Oct/2025 22:18:03] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2025-10-23 22:18:03,292 - werkzeug - INFO - 127.0.0.1 - - [23/Oct/2025 22:18:03] "[36mGET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-10-23 22:18:03,293 - werkzeug - INFO - 127.0.0.1 - - [23/Oct/2025 22:18:03] "[36mGET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-10-23 22:18:03,339 - werkzeug - INFO - 127.0.0.1 - - [23/Oct/2025 22:18:03] "[36mGET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
