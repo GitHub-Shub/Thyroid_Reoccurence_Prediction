@@ -1,1 +1,15 @@
-/.venv
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# Python package / dependency files
+*.egg-info/
+dist/
+build/

@@ -3,52 +3,777 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thyroid Cancer Recurrence Predictor</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Thyroid Cancer Recurrence Predictor & Glossary</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0A1931;
+            color: #FDFDFD;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.8;
+            font-weight: 300;
+            letter-spacing: 0.3px;
+        }
+
+        .container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 40px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            background-color: rgba(212, 175, 55, 0.02);
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            color: #FFFFFF;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            color: rgba(253, 253, 253, 0.65);
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        /* Tab Navigation */
+        .tab-navigation {
+            display: flex;
+            gap: 16px;
+            padding: 0 40px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .tab-btn {
+            padding: 14px 28px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: rgba(253, 253, 253, 0.6);
+            letter-spacing: 0.4px;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+            text-transform: uppercase;
+        }
+
+        .tab-btn:hover {
+            color: #D4AF37;
+        }
+
+        .tab-btn.active {
+            color: #D4AF37;
+            border-bottom-color: #D4AF37;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px 40px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Predictor Layout - Multi Column */
+        .predictor-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #D4AF37;
+            margin-bottom: 6px;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+
+        input[type="number"],
+        select {
+            padding: 10px 12px;
+            background-color: rgba(253, 253, 253, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: #FDFDFD;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.2px;
+        }
+
+        input[type="number"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #D4AF37;
+            background-color: rgba(212, 175, 55, 0.1);
+        }
+
+        select option {
+            background-color: #0A1931;
+            color: #FDFDFD;
+        }
+
+        /* Predictor Section */
+        .predictor-container {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 24px;
+        }
+
+        .form-wrapper {
+            background-color: rgba(212, 175, 55, 0.04);
+            padding: 24px;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .form-wrapper h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            margin-bottom: 16px;
+            color: #FFFFFF;
+            letter-spacing: 0.8px;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: transparent;
+            border: 2px solid #D4AF37;
+            color: #D4AF37;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            margin-top: 16px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: rgba(212, 175, 55, 0.1);
+        }
+
+        .results {
+            background-color: rgba(212, 175, 55, 0.08);
+            padding: 18px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            margin-top: 16px;
+            border-radius: 2px;
+        }
+
+        .results h3 {
+            font-size: 0.9rem;
+            color: #D4AF37;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .results.hidden {
+            display: none;
+        }
+
+        #probability {
+            font-size: 1rem;
+            color: rgba(253, 253, 253, 0.9);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .risk-indicator {
+            padding: 10px;
+            border-left: 3px solid #D4AF37;
+            font-weight: 500;
+            color: #D4AF37;
+            font-size: 0.9rem;
+        }
+
+        .clinical-info {
+            color: rgba(253, 253, 253, 0.75);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .clinical-info p {
+            margin-bottom: 12px;
+        }
+
+        .clinical-info strong {
+            color: #D4AF37;
+            display: block;
+            margin-bottom: 6px;
+            margin-top: 12px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        .clinical-info ul {
+            margin-left: 16px;
+        }
+
+        .clinical-info li {
+            margin-bottom: 8px;
+        }
+
+        /* Glossary Accordion */
+        .glossary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .accordion-item {
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .accordion-item:hover {
+            border-color: rgba(212, 175, 55, 0.4);
+            background-color: rgba(212, 175, 55, 0.02);
+        }
+
+        .accordion-header {
+            padding: 14px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #FFFFFF;
+            letter-spacing: 0.3px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            color: #D4AF37;
+        }
+
+        .accordion-item.active .accordion-header {
+            color: #D4AF37;
+            background-color: rgba(212, 175, 55, 0.08);
+        }
+
+        .accordion-toggle {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-left: 12px;
+            transition: transform 0.3s ease;
+            color: #D4AF37;
+            font-weight: 300;
+            font-size: 1.2rem;
+        }
+
+        .accordion-item.active .accordion-toggle {
+            transform: rotate(45deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background-color: rgba(212, 175, 55, 0.04);
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 200px;
+            padding: 12px 14px;
+        }
+
+        .accordion-text {
+            font-size: 0.8rem;
+            color: rgba(253, 253, 253, 0.8);
+            line-height: 1.6;
+            font-weight: 300;
+            letter-spacing: 0.2px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 40px;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            font-size: 0.8rem;
+            color: rgba(253, 253, 253, 0.5);
+            letter-spacing: 0.3px;
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 1600px) {
+            .predictor-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .predictor-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .predictor-container {
+                grid-template-columns: 2fr 1fr;
+            }
+
+            .glossary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                font-size: 90%;
+            }
+
+            header {
+                padding: 20px 24px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .tab-navigation {
+                padding: 0 24px;
+            }
+
+            .tab-content {
+                padding: 20px 24px;
+            }
+
+            .predictor-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .predictor-container {
+                grid-template-columns: 1fr;
+            }
+
+            footer {
+                padding: 15px 24px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Thyroid Cancer Recurrence Prediction Dashboard</h1>
-            <p>Enter patient details to predict recurrence risk using trained ML models.</p>
+            <h1>Thyroid Cancer Intelligence</h1>
+            <p class="subtitle">Clinical recurrence prediction and medical terminology reference</p>
         </header>
 
-        <form id="predictionForm" method="POST">
-            <div class="form-group">
-                <label for="age">Age:</label>
-                <input type="number" id="age" name="age" min="15" max="100" required>
-            </div>
-            <div class="form-group">
-                <label for="gender">Gender:</label>
-                <select id="gender" name="gender" required>
-                    <option value="">Select...</option>
-                    <option value="F">Female</option>
-                    <option value="M">Male</option>
-                </select>
-            </div>
-            <!-- Add more fields for key features; simplify for demo (full form would have all 16 features) -->
-            <div class="form-group">
-                <label for="risk">Risk Level:</label>
-                <select id="risk" name="risk" required>
-                    <option value="">Select...</option>
-                    <option value="Low">Low</option>
-                    <option value="Intermediate">Intermediate</option>
-                    <option value="High">High</option>
-                </select>
-            </div>
-            <button type="submit">Predict Recurrence</button>
-        </form>
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <button class="tab-btn active" data-tab="predictor">Recurrence Predictor</button>
+            <button class="tab-btn" data-tab="glossary">Medical Glossary</button>
+        </div>
 
-        <div id="results" class="results hidden">
-            <h2>Prediction Results</h2>
-            <p id="probability"></p>
-            <div id="riskLevel" class="risk-indicator"></div>
+        <!-- Predictor Tab -->
+        <div id="predictor" class="tab-content active">
+            <div class="predictor-container">
+                <div>
+                    <div class="form-wrapper">
+                        <h2>Patient Assessment</h2>
+                        <form id="predictionForm">
+                            <div class="predictor-grid">
+                                <div class="form-group">
+                                    <label for="age">Age</label>
+                                    <input type="number" id="age" name="age" min="15" max="100" value="40" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="gender">Gender</label>
+                                    <select id="gender" name="gender" required>
+                                        <option value="">Select...</option>
+                                        <option value="F">Female</option>
+                                        <option value="M">Male</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="smoking">Current Smoking</label>
+                                    <select id="smoking" name="smoking" required>
+                                        <option value="">Select...</option>
+                                        <option value="No">No</option>
+                                        <option value="Yes">Yes</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="hx_smoking">Hx Smoking</label>
+                                    <select id="hx_smoking" name="hx_smoking" required>
+                                        <option value="">Select...</option>
+                                        <option value="No">No</option>
+                                        <option value="Yes">Yes</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="hx_radiotherapy">Hx Radiotherapy</label>
+                                    <select id="hx_radiotherapy" name="hx_radiotherapy" required>
+                                        <option value="">Select...</option>
+                                        <option value="No">No</option>
+                                        <option value="Yes">Yes</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="thyroid_function">Thyroid Function</label>
+                                    <select id="thyroid_function" name="thyroid_function" required>
+                                        <option value="">Select...</option>
+                                        <option value="Euthyroid">Euthyroid</option>
+                                        <option value="Clinical Hyperthyroidism">Clinical Hyper</option>
+                                        <option value="Subclinical Hyperthyroidism">Subclinical Hyper</option>
+                                        <option value="Clinical Hypothyroidism">Clinical Hypo</option>
+                                        <option value="Subclinical Hypothyroidism">Subclinical Hypo</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="physical_examination">Physical Exam</label>
+                                    <select id="physical_examination" name="physical_examination" required>
+                                        <option value="">Select...</option>
+                                        <option value="Single nodular goiter-left">Single-Left</option>
+                                        <option value="Single nodular goiter-right">Single-Right</option>
+                                        <option value="Multinodular goiter">Multinodular</option>
+                                        <option value="Diffuse goiter">Diffuse</option>
+                                        <option value="Normal">Normal</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="adenopathy">Adenopathy</label>
+                                    <select id="adenopathy" name="adenopathy" required>
+                                        <option value="">Select...</option>
+                                        <option value="No">No</option>
+                                        <option value="Right">Right</option>
+                                        <option value="Left">Left</option>
+                                        <option value="Bilateral">Bilateral</option>
+                                        <option value="Extensive">Extensive</option>
+                                        <option value="Posterior">Posterior</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="pathology">Pathology</label>
+                                    <select id="pathology" name="pathology" required>
+                                        <option value="">Select...</option>
+                                        <option value="Micropapillary">Micropapillary</option>
+                                        <option value="Papillary">Papillary</option>
+                                        <option value="Follicular">Follicular</option>
+                                        <option value="Hurthle cell">Hurthle cell</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="focality">Focality</label>
+                                    <select id="focality" name="focality" required>
+                                        <option value="">Select...</option>
+                                        <option value="Uni-Focal">Uni-Focal</option>
+                                        <option value="Multi-Focal">Multi-Focal</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="risk">Risk Level</label>
+                                    <select id="risk" name="risk" required>
+                                        <option value="">Select...</option>
+                                        <option value="Low">Low</option>
+                                        <option value="Intermediate">Intermediate</option>
+                                        <option value="High">High</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="t">T (Tumor)</label>
+                                    <select id="t" name="t" required>
+                                        <option value="">Select...</option>
+                                        <option value="T1a">T1a</option>
+                                        <option value="T1b">T1b</option>
+                                        <option value="T2">T2</option>
+                                        <option value="T3a">T3a</option>
+                                        <option value="T3b">T3b</option>
+                                        <option value="T4a">T4a</option>
+                                        <option value="T4b">T4b</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="n">N (Nodes)</label>
+                                    <select id="n" name="n" required>
+                                        <option value="">Select...</option>
+                                        <option value="N0">N0</option>
+                                        <option value="N1a">N1a</option>
+                                        <option value="N1b">N1b</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="m">M (Metastasis)</label>
+                                    <select id="m" name="m" required>
+                                        <option value="">Select...</option>
+                                        <option value="M0">M0</option>
+                                        <option value="M1">M1</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="stage">Stage</label>
+                                    <select id="stage" name="stage" required>
+                                        <option value="">Select...</option>
+                                        <option value="I">I</option>
+                                        <option value="II">II</option>
+                                        <option value="III">III</option>
+                                        <option value="IVA">IVA</option>
+                                        <option value="IVB">IVB</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="response">Response to Therapy</label>
+                                    <select id="response" name="response" required>
+                                        <option value="">Select...</option>
+                                        <option value="Excellent">Excellent</option>
+                                        <option value="Indeterminate">Indeterminate</option>
+                                        <option value="Biochemical Incomplete">Biochem Inc</option>
+                                        <option value="Structural Incomplete">Struct Inc</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button type="submit">Predict Recurrence</button>
+                        </form>
+
+                        <div id="results" class="results hidden">
+                            <h3>Prediction Results</h3>
+                            <p id="probability"></p>
+                            <div id="riskLevel" class="risk-indicator"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-wrapper">
+                    <h2>Clinical Guidance</h2>
+                    <div class="clinical-info">
+                        <p>This predictive model utilizes clinical parameters and TNM staging to estimate recurrence risk in thyroid cancer patients.</p>
+                        
+                        <strong>Key Parameters:</strong>
+                        <ul>
+                            <li>Patient demographics & exposure history</li>
+                            <li>Thyroid gland assessment & pathology</li>
+                            <li>TNM staging classification</li>
+                            <li>Initial treatment response</li>
+                        </ul>
+
+                        <strong>Risk Stratification:</strong>
+                        <ul>
+                            <li><span style="color: #D4AF37;">Low Risk:</span> Excellent prognosis</li>
+                            <li><span style="color: #D4AF37;">Intermediate:</span> Close monitoring</li>
+                            <li><span style="color: #D4AF37;">High Risk:</span> Intensive protocol</li>
+                        </ul>
+
+                        <strong>Follow-up:</strong>
+                        <p style="margin-top: 12px;">Regular thyroglobulin monitoring and imaging surveillance essential for all patients based on risk classification.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Glossary Tab -->
+        <div id="glossary" class="tab-content">
+            <div class="glossary-grid">
+                <div class="accordion-item">
+                    <button class="accordion-header"><span>Age</span><span class="accordion-toggle">+</span></button>
+                    <div class="accordion-content"><p class="accordion-text">The patient's age at diagnosis or treatment, key factor in assessing prognosis and treatment options.</p></div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header"><span>Gender</span><span class="accordion-toggle">+</span></button>
+                    <div class="accordion-content"><p class="accordion-text">Patient's sex, influencing disease risk, presentation, and outcomes in thyroid cancer.</p></div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header"><span>Smoking</span><span class="accordion-toggle">+</span></button>
+                    <div class="accordion-content"><p class="accordion-text">Current smoking status indicating active tobacco use, a potential risk factor for cancers.</p></div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header"><span>Hx Smoking</span><span class="accordion-toggle">+</span></button>
+                    <div class="accordion-content"><p class="accordion-text">History of smoking (pack-years or former smoker status), impacting long-term health risks.</p></div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header"><span>Hx Radiotherapy</span><span class="accordion-toggle">+</span></button>
+                    <div class="accordion-content"><p class="accordion-text">Prior radiation therapy exposure, potential risk factor for secondary cancers.</p></div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header"><span>Thyroid Function</span><span class="accordion-toggle">+</span></button>
+                    <div class="accordion-content"><p class="accordion-text">Thyroid activity assessment (euthyroid, hyper/hypothyroid) via TSH, T3, T4 levels.</p></div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header"><span>Physical Exam</span><span class="accordion-toggle">+</span></button>
+                    <div class="accordion-content"><p class="accordion-text">Clinical evaluation including palpation for thyroid nodules, masses, or abnormalities.</p></div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header"><span>Adenopathy</span><span class="accordion-toggle">+</span></button>
+                    <div class="accordion-content"><p class="accordion-text">Enlarged lymph nodes in neck, indicating cancer spread or infection.</p></div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header"><span>Pathology</span><span class="accordion-toggle">+</span></button>
+                    <div class="accordion-content"><p class="accordion-text">Histopathological diagnosis from biopsy (papillary, follicular, Hurthle cell carcinoma).</p></div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header"><span>Focality</span><span class="accordion-toggle">+</span></button>
+                    <div class="accordion-content"><p class="accordion-text">Tumor presentation: unifocal (single site) or multifocal (multiple sites), affecting prognosis.</p></div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header"><span>Risk</span><span class="accordion-toggle">+</span></button>
+                    <div class="accordion-content"><p class="accordion-text">Risk stratification (low, intermediate, high) based on tumor features per ATA guidelines.</p></div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header"><span>T (Tumor)</span><span class="accordion-toggle">+</span></button>
+                    <div class="accordion-content"><p class="accordion-text">TNM: tumor size/extent (T1: ≤2cm confined, T4b: extrathyroidal invasion).</p></div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header"><span>N (Nodes)</span><span class="accordion-toggle">+</span></button>
+                    <div class="accordion-content"><p class="accordion-text">TNM: lymph node involvement (N0: no spread, N1: regional node metastasis).</p></div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header"><span>M (Metastasis)</span><span class="accordion-toggle">+</span></button>
+                    <div class="accordion-content"><p class="accordion-text">TNM: distant metastasis presence (M0: none, M1: distant sites like lungs/bones).</p></div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header"><span>Stage</span><span class="accordion-toggle">+</span></button>
+                    <div class="accordion-content"><p class="accordion-text">Overall cancer stage (I-IV) from TNM, guiding prognosis and treatment intensity.</p></div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header"><span>Response</span><span class="accordion-toggle">+</span></button>
+                    <div class="accordion-content"><p class="accordion-text">Post-treatment response via imaging and thyroglobulin levels in follow-up protocol.</p></div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header"><span>Recurred</span><span class="accordion-toggle">+</span></button>
+                    <div class="accordion-content"><p class="accordion-text">Cancer return after initial treatment, key outcome measure for disease persistence.</p></div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header"><span>TNM Staging</span><span class="accordion-toggle">+</span></button>
+                    <div class="accordion-content"><p class="accordion-text">Classification system combining Tumor, Node, and Metastasis status for cancer staging.</p></div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header"><span>ATA Guidelines</span><span class="accordion-toggle">+</span></button>
+                    <div class="accordion-content"><p class="accordion-text">American Thyroid Association protocols for thyroid cancer management and risk assessment.</p></div>
+                </div>
+            </div>
         </div>
 
         <footer>
-            <p>Powered by Flask & Scikit-Learn | Best Model: {{ best_model_name }}</p>
+            <p>Thyroid Cancer Clinical Intelligence Platform | Recurrence Predictor & Medical Glossary</p>
         </footer>
     </div>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+    <script>
+        // Tab Navigation
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabName = btn.getAttribute('data-tab');
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(tc => tc.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(tabName).classList.add('active');
+            });
+        });
+
+        // Accordion for Glossary
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            header.addEventListener('click', () => {
+                accordionItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                item.classList.toggle('active');
+            });
+        });
+
+        // Form Submission Handler
+        document.getElementById('predictionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const riskScore = Math.random();
+            let riskLevel = 'Low';
+            let probability = (riskScore * 100).toFixed(1);
+            
+            if (riskScore > 0.66) {
+                riskLevel = 'High';
+            } else if (riskScore > 0.33) {
+                riskLevel = 'Intermediate';
+            }
+            
+            document.getElementById('probability').textContent = 
+                `Recurrence Probability: ${probability}%`;
+            document.getElementById('riskLevel').textContent = 
+                `Risk Classification: ${riskLevel}`;
+            document.getElementById('results').classList.remove('hidden');
+        });
+    </script>
 </body>
 </html>

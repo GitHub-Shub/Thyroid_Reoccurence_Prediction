@@ -251,3 +251,286 @@ weighted avg       0.92      0.92      0.92        77
 2025-10-23 22:18:03,292 - werkzeug - INFO - 127.0.0.1 - - [23/Oct/2025 22:18:03] "[36mGET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
 2025-10-23 22:18:03,293 - werkzeug - INFO - 127.0.0.1 - - [23/Oct/2025 22:18:03] "[36mGET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
 2025-10-23 22:18:03,339 - werkzeug - INFO - 127.0.0.1 - - [23/Oct/2025 22:18:03] "[36mGET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-10-24 14:18:56,461 - preprocess - ERROR - Error loading model/preprocessor: Can't get attribute '_RemainderColsList' on <module 'sklearn.compose._column_transformer' from 'C:\\Users\\Harpreet\\Desktop\\Problem Statements\\6_Thyroid_Reoccurence_Prediction\\venv\\Lib\\site-packages\\sklearn\\compose\\_column_transformer.py'>
+2025-10-24 14:20:24,536 - __main__ - INFO - Starting preprocessing pipeline
+2025-10-24 14:20:24,568 - __main__ - INFO - Data loaded successfully
+2025-10-24 14:20:24,570 - __main__ - INFO - Loaded data: 383 rows, 17 columns
+2025-10-24 14:20:24,570 - __main__ - INFO - 
+Dataset Info:
+2025-10-24 14:20:24,576 - __main__ - INFO - None
+2025-10-24 14:20:24,576 - __main__ - INFO - 
+Missing Values:
+2025-10-24 14:20:24,576 - __main__ - INFO - Age                     0
+Gender                  0
+Smoking                 0
+Hx Smoking              0
+Hx Radiothreapy         0
+Thyroid Function        0
+Physical Examination    0
+Adenopathy              0
+Pathology               0
+Focality                0
+Risk                    0
+T                       0
+N                       0
+M                       0
+Stage                   0
+Response                0
+Recurred                0
+dtype: int64
+2025-10-24 14:20:24,584 - __main__ - INFO - Data cleaning completed successfully
+2025-10-24 14:20:24,584 - __main__ - INFO - Cleaned data shape: (383, 17)
+2025-10-24 14:20:24,585 - __main__ - INFO - Features and target separated successfully
+2025-10-24 14:20:24,587 - __main__ - INFO - Features shape: (383, 16), Target shape: (383,)
+2025-10-24 14:20:24,588 - __main__ - INFO - Target distribution: Recurred
+0    0.718016
+1    0.281984
+Name: proportion, dtype: float64
+2025-10-24 14:20:24,590 - __main__ - INFO - Preprocessing pipeline defined successfully
+2025-10-24 14:20:24,592 - __main__ - INFO - Data split completed successfully
+2025-10-24 14:20:24,595 - __main__ - INFO - Train split: 306 samples (Recurred
+0    0.718954
+1    0.281046
+Name: proportion, dtype: float64)
+2025-10-24 14:20:24,597 - __main__ - INFO - Test split: 77 samples (Recurred
+0    0.714286
+1    0.285714
+Name: proportion, dtype: float64)
+2025-10-24 14:20:24,634 - __main__ - INFO - Data transformation completed successfully
+2025-10-24 14:20:24,634 - __main__ - INFO - Processed train shape: (306, 40)
+2025-10-24 14:20:24,634 - __main__ - INFO - Processed test shape: (77, 40)
+2025-10-24 14:20:24,665 - __main__ - INFO - Processed files saved successfully!
+2025-10-24 14:20:24,667 - __main__ - INFO - Preprocessing pipeline completed successfully
+2025-10-24 14:20:50,228 - preprocess - INFO - Starting multi-model training pipeline
+2025-10-24 14:20:50,308 - preprocess - INFO - Processed data loaded successfully
+2025-10-24 14:20:50,308 - preprocess - INFO - Train: (306, 40), Test: (77, 40)
+2025-10-24 14:20:50,311 - preprocess - INFO - Training LogisticRegression...
+2025-10-24 14:20:50,412 - preprocess - INFO - LogisticRegression - Test AUC: 0.9926, Test F1: 0.9608, CV F1: 0.9510 (+/- 0.0456)
+2025-10-24 14:20:50,412 - preprocess - INFO - LogisticRegression Classification Report:
+              precision    recall  f1-score   support
+
+          No       0.96      0.98      0.97        55
+         Yes       0.95      0.91      0.93        22
+
+    accuracy                           0.96        77
+   macro avg       0.96      0.95      0.95        77
+weighted avg       0.96      0.96      0.96        77
+
+2025-10-24 14:20:50,412 - preprocess - INFO - LogisticRegression Confusion Matrix:
+[[54  1]
+ [ 2 20]]
+2025-10-24 14:20:50,412 - preprocess - INFO - Training DecisionTree...
+2025-10-24 14:20:50,502 - preprocess - INFO - DecisionTree - Test AUC: 0.9273, Test F1: 0.9355, CV F1: 0.9311 (+/- 0.0376)
+2025-10-24 14:20:50,504 - preprocess - INFO - DecisionTree Classification Report:
+              precision    recall  f1-score   support
+
+          No       0.96      0.95      0.95        55
+         Yes       0.87      0.91      0.89        22
+
+    accuracy                           0.94        77
+   macro avg       0.92      0.93      0.92        77
+weighted avg       0.94      0.94      0.94        77
+
+2025-10-24 14:20:50,504 - preprocess - INFO - DecisionTree Confusion Matrix:
+[[52  3]
+ [ 2 20]]
+2025-10-24 14:20:50,504 - preprocess - INFO - Training RandomForest...
+2025-10-24 14:20:51,761 - preprocess - INFO - RandomForest - Test AUC: 0.9934, Test F1: 0.9601, CV F1: 0.9598 (+/- 0.0509)
+2025-10-24 14:20:51,761 - preprocess - INFO - RandomForest Classification Report:
+              precision    recall  f1-score   support
+
+          No       0.95      1.00      0.97        55
+         Yes       1.00      0.86      0.93        22
+
+    accuracy                           0.96        77
+   macro avg       0.97      0.93      0.95        77
+weighted avg       0.96      0.96      0.96        77
+
+2025-10-24 14:20:51,761 - preprocess - INFO - RandomForest Confusion Matrix:
+[[55  0]
+ [ 3 19]]
+2025-10-24 14:20:51,761 - preprocess - INFO - Training SVC...
+2025-10-24 14:20:51,872 - preprocess - INFO - SVC - Test AUC: 0.9802, Test F1: 0.9608, CV F1: 0.9670 (+/- 0.0304)
+2025-10-24 14:20:51,872 - preprocess - INFO - SVC Classification Report:
+              precision    recall  f1-score   support
+
+          No       0.96      0.98      0.97        55
+         Yes       0.95      0.91      0.93        22
+
+    accuracy                           0.96        77
+   macro avg       0.96      0.95      0.95        77
+weighted avg       0.96      0.96      0.96        77
+
+2025-10-24 14:20:51,872 - preprocess - INFO - SVC Confusion Matrix:
+[[54  1]
+ [ 2 20]]
+2025-10-24 14:20:51,872 - preprocess - INFO - Training KNN...
+2025-10-24 14:20:55,014 - preprocess - INFO - KNN - Test AUC: 0.9719, Test F1: 0.9473, CV F1: 0.9324 (+/- 0.0507)
+2025-10-24 14:20:55,014 - preprocess - INFO - KNN Classification Report:
+              precision    recall  f1-score   support
+
+          No       0.95      0.98      0.96        55
+         Yes       0.95      0.86      0.90        22
+
+    accuracy                           0.95        77
+   macro avg       0.95      0.92      0.93        77
+weighted avg       0.95      0.95      0.95        77
+
+2025-10-24 14:20:55,014 - preprocess - INFO - KNN Confusion Matrix:
+[[54  1]
+ [ 3 19]]
+2025-10-24 14:20:55,014 - preprocess - INFO - Training GaussianNB...
+2025-10-24 14:20:55,112 - preprocess - INFO - GaussianNB - Test AUC: 0.9798, Test F1: 0.9195, CV F1: 0.9100 (+/- 0.0626)
+2025-10-24 14:20:55,114 - preprocess - INFO - GaussianNB Classification Report:
+              precision    recall  f1-score   support
+
+          No       0.92      0.98      0.95        55
+         Yes       0.94      0.77      0.85        22
+
+    accuracy                           0.92        77
+   macro avg       0.93      0.88      0.90        77
+weighted avg       0.92      0.92      0.92        77
+
+2025-10-24 14:20:55,114 - preprocess - INFO - GaussianNB Confusion Matrix:
+[[54  1]
+ [ 5 17]]
+2025-10-24 14:20:55,122 - preprocess - INFO - Model comparison saved to C:\Users\Harpreet\Desktop\Problem Statements\6_Thyroid_Reoccurence_Prediction\models\model_comparison.csv
+2025-10-24 14:20:55,132 - preprocess - INFO - Best model: RandomForest with AUC: 0.9934
+2025-10-24 14:20:55,240 - preprocess - INFO - Best model (RandomForest) saved successfully to C:\Users\Harpreet\Desktop\Problem Statements\6_Thyroid_Reoccurence_Prediction\models\best_model.pkl and C:\Users\Harpreet\Desktop\Problem Statements\6_Thyroid_Reoccurence_Prediction\models\RandomForest_model.pkl
+2025-10-24 14:20:55,241 - preprocess - INFO - Multi-model training pipeline completed successfully
+2025-10-24 14:21:08,269 - preprocess - INFO - Model and preprocessor loaded successfully
+2025-10-24 14:21:08,269 - preprocess - INFO - Starting Flask web app
+2025-10-24 14:21:08,329 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.31.119:5000
+2025-10-24 14:21:08,332 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-24 14:21:08,335 - werkzeug - INFO -  * Restarting with stat
+2025-10-24 14:21:11,504 - preprocess - INFO - Model and preprocessor loaded successfully
+2025-10-24 14:21:11,504 - preprocess - INFO - Starting Flask web app
+2025-10-24 14:21:11,524 - werkzeug - WARNING -  * Debugger is active!
+2025-10-24 14:21:11,539 - werkzeug - INFO -  * Debugger PIN: 240-851-386
+2025-10-24 14:21:12,969 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 14:21:12] "GET / HTTP/1.1" 200 -
+2025-10-24 14:21:13,253 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 14:21:13] "GET /static/css/style.css HTTP/1.1" 200 -
+2025-10-24 14:21:13,276 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 14:21:13] "GET /static/js/script.js HTTP/1.1" 200 -
+2025-10-24 14:21:13,376 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 14:21:13] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-10-24 14:21:26,035 - preprocess - ERROR - Prediction error: columns are missing: {'Hx Radiothreapy'}
+2025-10-24 14:21:26,038 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 14:21:26] "[35m[1mPOST / HTTP/1.1[0m" 500 -
+2025-10-24 14:21:27,974 - preprocess - ERROR - Prediction error: columns are missing: {'Hx Radiothreapy'}
+2025-10-24 14:21:27,978 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 14:21:27] "[35m[1mPOST / HTTP/1.1[0m" 500 -
+2025-10-24 14:23:45,833 - preprocess - INFO - Model and preprocessor loaded successfully
+2025-10-24 14:23:45,833 - preprocess - INFO - Starting Flask web app
+2025-10-24 14:23:45,911 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.31.119:5000
+2025-10-24 14:23:45,911 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-24 14:23:45,915 - werkzeug - INFO -  * Restarting with stat
+2025-10-24 14:23:49,605 - preprocess - INFO - Model and preprocessor loaded successfully
+2025-10-24 14:23:49,606 - preprocess - INFO - Starting Flask web app
+2025-10-24 14:23:49,632 - werkzeug - WARNING -  * Debugger is active!
+2025-10-24 14:23:49,646 - werkzeug - INFO -  * Debugger PIN: 240-851-386
+2025-10-24 14:23:49,914 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 14:23:49] "GET / HTTP/1.1" 200 -
+2025-10-24 14:23:50,105 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 14:23:50] "GET /static/css/style.css HTTP/1.1" 200 -
+2025-10-24 14:23:50,126 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 14:23:50] "GET /static/js/script.js HTTP/1.1" 200 -
+2025-10-24 14:24:43,217 - preprocess - ERROR - Prediction error: columns are missing: {'Hx Radiothreapy'}
+2025-10-24 14:24:43,217 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 14:24:43] "[35m[1mPOST / HTTP/1.1[0m" 500 -
+2025-10-24 14:24:47,836 - preprocess - ERROR - Prediction error: columns are missing: {'Hx Radiothreapy'}
+2025-10-24 14:24:47,836 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 14:24:47] "[35m[1mPOST / HTTP/1.1[0m" 500 -
+2025-10-24 14:26:47,978 - preprocess - ERROR - Prediction error: columns are missing: {'Hx Radiothreapy'}
+2025-10-24 14:26:47,980 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 14:26:47] "[35m[1mPOST / HTTP/1.1[0m" 500 -
+2025-10-24 14:28:07,830 - preprocess - INFO - Model and preprocessor loaded successfully
+2025-10-24 14:28:07,830 - preprocess - INFO - Starting Flask web app
+2025-10-24 14:28:07,882 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.31.119:5000
+2025-10-24 14:28:07,882 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-24 14:28:07,886 - werkzeug - INFO -  * Restarting with stat
+2025-10-24 14:28:11,520 - preprocess - INFO - Model and preprocessor loaded successfully
+2025-10-24 14:28:11,520 - preprocess - INFO - Starting Flask web app
+2025-10-24 14:28:11,547 - werkzeug - WARNING -  * Debugger is active!
+2025-10-24 14:28:11,562 - werkzeug - INFO -  * Debugger PIN: 240-851-386
+2025-10-24 14:28:11,791 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 14:28:11] "GET / HTTP/1.1" 200 -
+2025-10-24 14:28:11,989 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 14:28:11] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-10-24 14:28:12,051 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 14:28:12] "GET /static/js/script.js HTTP/1.1" 200 -
+2025-10-24 14:28:39,083 - preprocess - ERROR - Prediction error: columns are missing: {'Hx Radiothreapy'}
+2025-10-24 14:28:39,085 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 14:28:39] "[35m[1mPOST / HTTP/1.1[0m" 500 -
+2025-10-24 14:31:46,637 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Harpreet\\Desktop\\Problem Statements\\6_Thyroid_Reoccurence_Prediction\\src\\app.py', reloading
+2025-10-24 14:31:47,154 - werkzeug - INFO -  * Restarting with stat
+2025-10-24 14:31:51,388 - preprocess - INFO - Model and preprocessor loaded successfully
+2025-10-24 14:31:51,388 - preprocess - INFO - Starting Flask web app
+2025-10-24 14:31:51,415 - werkzeug - WARNING -  * Debugger is active!
+2025-10-24 14:31:51,433 - werkzeug - INFO -  * Debugger PIN: 240-851-386
+2025-10-24 14:32:02,052 - preprocess - INFO - Model and preprocessor loaded successfully
+2025-10-24 14:32:02,068 - preprocess - INFO - Starting Flask web app
+2025-10-24 14:32:02,123 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.31.119:5000
+2025-10-24 14:32:02,123 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-24 14:32:02,130 - werkzeug - INFO -  * Restarting with stat
+2025-10-24 14:32:06,288 - preprocess - INFO - Model and preprocessor loaded successfully
+2025-10-24 14:32:06,296 - preprocess - INFO - Starting Flask web app
+2025-10-24 14:32:06,323 - werkzeug - WARNING -  * Debugger is active!
+2025-10-24 14:32:06,335 - werkzeug - INFO -  * Debugger PIN: 240-851-386
+2025-10-24 14:32:06,555 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 14:32:06] "GET / HTTP/1.1" 200 -
+2025-10-24 14:32:06,783 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 14:32:06] "[36mGET /static/js/script.js HTTP/1.1[0m" 304 -
+2025-10-24 14:32:06,786 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 14:32:06] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-10-24 14:32:29,239 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 14:32:29] "[35m[1mPOST / HTTP/1.1[0m" 500 -
+2025-10-24 14:32:35,760 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 14:32:35] "[35m[1mPOST / HTTP/1.1[0m" 500 -
+2025-10-24 14:33:45,809 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Harpreet\\Desktop\\Problem Statements\\6_Thyroid_Reoccurence_Prediction\\src\\app.py', reloading
+2025-10-24 14:33:46,372 - werkzeug - INFO -  * Restarting with stat
+2025-10-24 14:33:54,451 - preprocess - INFO - Model and preprocessor loaded successfully
+2025-10-24 14:33:54,451 - preprocess - INFO - Starting Flask web app
+2025-10-24 14:33:54,511 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.31.119:5000
+2025-10-24 14:33:54,511 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-24 14:33:54,511 - werkzeug - INFO -  * Restarting with stat
+2025-10-24 14:33:58,496 - preprocess - INFO - Model and preprocessor loaded successfully
+2025-10-24 14:33:58,496 - preprocess - INFO - Starting Flask web app
+2025-10-24 14:33:58,525 - werkzeug - WARNING -  * Debugger is active!
+2025-10-24 14:33:58,538 - werkzeug - INFO -  * Debugger PIN: 240-851-386
+2025-10-24 14:33:58,779 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 14:33:58] "GET / HTTP/1.1" 200 -
+2025-10-24 14:33:58,963 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 14:33:58] "[36mGET /static/js/script.js HTTP/1.1[0m" 304 -
+2025-10-24 14:33:58,963 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 14:33:58] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-10-24 14:34:25,523 - preprocess - INFO - Prediction made: 0.0123 for input {'age': '40', 'gender': 'F', 'smoking': 'No', 'hx_smoking': 'No', 'hx_radiotherapy': 'Yes', 'thyroid_function': 'Clinical Hyperthyroidism', 'physical_examination': 'Single nodular goiter-left', 'adenopathy': 'No', 'pathology': 'Micropapillary', 'focality': 'Uni-Focal', 'risk': 'Low', 't': 'T1a', 'n': 'N0', 'm': 'M0', 'stage': 'I', 'response': 'Excellent'}
+2025-10-24 14:34:25,527 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 14:34:25] "POST / HTTP/1.1" 200 -
+2025-10-24 14:45:30,029 - preprocess - INFO - Model and preprocessor loaded successfully
+2025-10-24 14:45:30,029 - preprocess - INFO - Starting Flask web app
+2025-10-24 14:45:30,084 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.31.119:5000
+2025-10-24 14:45:30,084 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-24 14:45:30,096 - werkzeug - INFO -  * Restarting with stat
+2025-10-24 14:45:33,835 - preprocess - INFO - Model and preprocessor loaded successfully
+2025-10-24 14:45:33,835 - preprocess - INFO - Starting Flask web app
+2025-10-24 14:45:33,861 - werkzeug - WARNING -  * Debugger is active!
+2025-10-24 14:45:33,875 - werkzeug - INFO -  * Debugger PIN: 240-851-386
+2025-10-24 14:45:40,290 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 14:45:40] "GET / HTTP/1.1" 200 -
+2025-10-24 14:54:28,794 - preprocess - INFO - Model and preprocessor loaded successfully
+2025-10-24 14:54:28,794 - preprocess - INFO - Starting Flask web app
+2025-10-24 14:54:28,868 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.31.119:5000
+2025-10-24 14:54:28,868 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-24 14:54:28,874 - werkzeug - INFO -  * Restarting with stat
+2025-10-24 14:54:32,751 - preprocess - INFO - Model and preprocessor loaded successfully
+2025-10-24 14:54:32,763 - preprocess - INFO - Starting Flask web app
+2025-10-24 14:54:32,780 - werkzeug - WARNING -  * Debugger is active!
+2025-10-24 14:54:32,791 - werkzeug - INFO -  * Debugger PIN: 240-851-386
+2025-10-24 14:54:33,466 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 14:54:33] "GET / HTTP/1.1" 200 -
+2025-10-24 15:05:28,242 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Harpreet\\Desktop\\Problem Statements\\6_Thyroid_Reoccurence_Prediction\\src\\app.py', reloading
+2025-10-24 15:05:28,890 - werkzeug - INFO -  * Restarting with stat
+2025-10-24 15:05:36,489 - preprocess - INFO - Model and preprocessor loaded successfully
+2025-10-24 15:05:36,489 - preprocess - INFO - Starting Flask web app
+2025-10-24 15:05:36,526 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.31.119:5000
+2025-10-24 15:05:36,526 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-24 15:05:40,701 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 15:05:40] "GET / HTTP/1.1" 200 -
