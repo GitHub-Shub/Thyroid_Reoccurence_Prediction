@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thyroid Differentiated Cancer Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(to bottom right, #f8fafc, #dbeafe, #f8fafc);
+            padding: 24px 32px;
+            color: #1e293b;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            margin-bottom: 32px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 18px;
+            color: #475569;
+            margin-bottom: 4px;
+        }
+
+        .header .subtitle {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 16px;
+        }
+
+        .header-line {
+            width: 96px;
+            height: 4px;
+            background: linear-gradient(to right, #2563eb, #60a5fa);
+            border-radius: 2px;
+            margin-top: 16px;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .kpi-card {
+            border-left: 4px solid;
+            border-radius: 8px;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .kpi-card.blue {
+            border-color: #2563eb;
+            background: #eff6ff;
+        }
+
+        .kpi-card.green {
+            border-color: #16a34a;
+            background: #f0fdf4;
+        }
+
+        .kpi-card.orange {
+            border-color: #d97706;
+            background: #fffbeb;
+        }
+
+        .kpi-card.purple {
+            border-color: #7c3aed;
+            background: #faf5ff;
+        }
+
+        .kpi-icon {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 8px;
+            font-size: 20px;
+        }
+
+        .kpi-card.blue .kpi-icon { color: #2563eb; }
+        .kpi-card.green .kpi-icon { color: #16a34a; }
+        .kpi-card.orange .kpi-icon { color: #d97706; }
+        .kpi-card.purple .kpi-icon { color: #7c3aed; }
+
+        .kpi-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+
+        .kpi-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-top: 8px;
+        }
+
+        .kpi-subtext {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border-top: 4px solid;
+        }
+
+        .chart-card.blue { border-color: #2563eb; }
+        .chart-card.red { border-color: #dc2626; }
+        .chart-card.green { border-color: #16a34a; }
+        .chart-card.purple { border-color: #7c3aed; }
+        .chart-card.indigo { border-color: #4f46e5; }
+        .chart-card.cyan { border-color: #0891b2; }
+        .chart-card.rose { border-color: #e11d48; }
+        .chart-card.amber { border-color: #d97706; }
+        .chart-card.fuchsia { border-color: #d946ef; }
+        .chart-card.teal { border-color: #0d9488; }
+        .chart-card.lime { border-color: #65a30d; }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 16px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 280px;
+            margin-bottom: 8px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            background: #f8fafc;
+            border-left: 3px solid;
+        }
+
+        .stat-row.fuchsia { border-color: #d946ef; }
+        .stat-row.teal { border-color: #0d9488; }
+        .stat-row.orange { border-color: #d97706; }
+        .stat-row.red { border-color: #dc2626; }
+        .stat-row.lime { border-color: #65a30d; }
+
+        .stat-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #334155;
+        }
+
+        .stat-value {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .stat-value.fuchsia { color: #d946ef; }
+        .stat-value.teal { color: #0d9488; }
+        .stat-value.orange { color: #d97706; }
+        .stat-value.red { color: #dc2626; }
+        .stat-value.lime { color: #65a30d; }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 8px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: #2563eb;
+        }
+
+        .insights-panel {
+            background: linear-gradient(to right, #0f172a, #1e293b);
+            color: white;
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin: 24px 0;
+        }
+
+        .insights-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+
+        .insight-item {
+            display: flex;
+            gap: 12px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .insight-arrow {
+            flex-shrink: 0;
+            font-weight: bold;
+            min-width: 16px;
+        }
+
+        .insight-arrow.blue { color: #60a5fa; }
+        .insight-arrow.green { color: #4ade80; }
+        .insight-arrow.orange { color: #fb923c; }
+        .insight-arrow.purple { color: #d8b4fe; }
+
+        .insight-text strong {
+            font-weight: 600;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #64748b;
+            font-size: 18px;
+        }
+
+        .error {
+            text-align: center;
+            padding: 40px 20px;
+            color: #dc2626;
+            background: #fee2e2;
+            border-radius: 8px;
+            margin: 40px 0;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #e2e8f0;
+            color: #334155;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .badge.fuchsia {
+            background: #fdf2f8;
+            color: #be185d;
+        }
+
+        .badge.teal {
+            background: #f0fdfa;
+            color: #0d6e6e;
+        }
+
+        .badge.orange {
+            background: #fffbeb;
+            color: #92400e;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 16px;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .header p {
+                font-size: 16px;
+            }
+
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .insights-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Thyroid Differentiated Cancer</h1>
+            <p>Prognostic Stratification & Patient Outcomes Analysis</p>
+            <div class="subtitle">Complete cohort: <span id="totalPatientsText">Loading...</span> patients | Age range: <span id="ageRangeText">Loading...</span> years</div>
+            <div class="header-line"></div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="loading">Loading dataset... Please wait</div>
+
+        <!-- Error State -->
+        <div id="errorState" class="error" style="display: none;"></div>
+
+        <!-- KPI Cards -->
+        <div class="kpi-grid" id="kpiContainer" style="display: none;"></div>
+
+        <!-- Primary Analysis -->
+        <div class="chart-grid" id="primaryCharts" style="display: none;">
+            <div class="chart-card blue">
+                <h3 class="chart-title">Risk Stratification</h3>
+                <div class="chart-container"><canvas id="riskChart"></canvas></div>
+            </div>
+            <div class="chart-card red">
+                <h3 class="chart-title">Recurrence by Risk</h3>
+                <div class="chart-container"><canvas id="recurrenceByRiskChart"></canvas></div>
+            </div>
+            <div class="chart-card green">
+                <h3 class="chart-title">Treatment Response</h3>
+                <div class="chart-container"><canvas id="responseChart"></canvas></div>
+            </div>
+        </div>
+
+        <!-- TNM Staging -->
+        <div class="chart-grid" id="tnmCharts" style="display: none;">
+            <div class="chart-card purple">
+                <h3 class="chart-title">T-Stage Distribution</h3>
+                <div class="chart-container"><canvas id="tStageChart"></canvas></div>
+            </div>
+            <div class="chart-card indigo">
+                <h3 class="chart-title">N-Stage Distribution</h3>
+                <div class="chart-container"><canvas id="nStageChart"></canvas></div>
+            </div>
+            <div class="chart-card cyan">
+                <h3 class="chart-title">AJCC Stage</h3>
+                <div class="chart-container"><canvas id="stageChart"></canvas></div>
+            </div>
+        </div>
+
+        <!-- Prognostic Factors -->
+        <div class="chart-grid" id="prognosticCharts" style="display: none;">
+            <div class="chart-card rose">
+                <h3 class="chart-title">Recurrence by T-Stage</h3>
+                <div class="chart-container"><canvas id="recurrenceByTChart"></canvas></div>
+            </div>
+            <div class="chart-card amber">
+                <h3 class="chart-title">Recurrence by N-Stage</h3>
+                <div class="chart-container"><canvas id="recurrenceByNChart"></canvas></div>
+            </div>
+        </div>
+
+        <!-- Clinical Factors -->
+        <div class="chart-grid" id="clinicalCharts" style="display: none;">
+            <div class="chart-card fuchsia">
+                <h3 class="chart-title">Top Pathology Types</h3>
+                <div id="pathologyContainer"></div>
+            </div>
+            <div class="chart-card teal">
+                <h3 class="chart-title">Focality Impact</h3>
+                <div id="focalityContainer"></div>
+            </div>
+            <div class="chart-card amber">
+                <h3 class="chart-title">Adenopathy Impact</h3>
+                <div id="adenopathyContainer"></div>
+            </div>
+        </div>
+
+        <!-- Demographics -->
+        <div class="chart-grid" id="demographicsCharts" style="display: none;">
+            <div class="chart-card" style="border-color: #ec4899;">
+                <h3 class="chart-title">Gender Distribution</h3>
+                <div class="chart-container"><canvas id="genderChart"></canvas></div>
+            </div>
+            <div class="chart-card red">
+                <h3 class="chart-title">Smoking & Recurrence</h3>
+                <div id="smokingContainer"></div>
+            </div>
+            <div class="chart-card lime">
+                <h3 class="chart-title">Thyroid Function Status</h3>
+                <div id="thyroidContainer"></div>
+            </div>
+        </div>
+
+        <!-- Insights Panel -->
+        <div class="insights-panel" id="insightsPanel" style="display: none;">
+            <div class="insights-title">Clinical Insights</div>
+            <div class="insights-grid">
+                <div class="insight-item">
+                    <span class="insight-arrow blue">→</span>
+                    <div><strong>N-Stage drives outcome:</strong> N0 recurrence ~<span id="n0Recurrence">--</span>% vs N1b ~<span id="n1bRecurrence">--</span>%</div>
+                </div>
+                <div class="insight-item">
+                    <span class="insight-arrow green">→</span>
+                    <div><strong>High-risk stratification:</strong> <span id="highRiskRecurred">--</span> of <span id="highRiskTotal">--</span> high-risk patients recurred</div>
+                </div>
+                <div class="insight-item">
+                    <span class="insight-arrow orange">→</span>
+                    <div><strong>Female predominance:</strong> <span id="femalePct">--</span>% of cohort</div>
+                </div>
+                <div class="insight-item">
+                    <span class="insight-arrow purple">→</span>
+                    <div><strong>Focality matters:</strong> <span id="multiRecurrence">--</span>% recurrence (multifocal) vs <span id="uniRecurrence">--</span>% (unifocal)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let data = [];
+        let analytics = {};
+        let chartInstances = {};
+
+        // Load data from GitHub
+        async function loadData() {
+            try {
+                const csvUrl = 'https://raw.githubusercontent.com/GitHub-Shub/Thyroid_Reoccurence_Prediction/main/data/raw/Thyroid_Diff.csv';
+                const response = await fetch(csvUrl);
+                const csvText = await response.text();
+                
+                Papa.parse(csvText, {
+                    header: true,
+                    skipEmptyLines: true,
+                    complete: function(results) {
+                        data = results.data;
+                        analyzeData();
+                        renderDashboard();
+                    },
+                    error: function(error) {
+                        showError('Error parsing CSV: ' + error.message);
+                    }
+                });
+            } catch (error) {
+                showError('Error loading data: ' + error.message);
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('loadingState').style.display = 'none';
+            const errorDiv = document.getElementById('errorState');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function analyzeData() {
+            const totalPatients = data.length;
+            const recurred = data.filter(function(d) { return d.Recurred === 'Yes'; }).length;
+            const recurrenceRate = ((recurred / totalPatients) * 100).toFixed(1);
+            const excellentResponse = ((data.filter(function(d) { return d.Response === 'Excellent'; }).length / totalPatients) * 100).toFixed(1);
+            
+            const ages = data.map(function(d) { return parseInt(d.Age); }).filter(function(a) { return !isNaN(a); });
+            const avgAge = (ages.reduce(function(a, b) { return a + b; }, 0) / ages.length).toFixed(1);
+            const minAge = Math.min.apply(null, ages);
+            const maxAge = Math.max.apply(null, ages);
+
+            const genderDist = countBy('Gender');
+            const riskDist = countBy('Risk');
+            const responseDist = countBy('Response');
+            const stageDist = countBy('Stage');
+            const tStageDist = countBy('T');
+            const nStageDist = countBy('N');
+            const recurrenceByRisk = recurrenceBy('Risk');
+            const recurrenceByN = recurrenceBy('N');
+            const recurrenceByT = recurrenceBy('T');
+            const pathologyDist = countBy('Pathology');
+            const focalityStats = recurrenceBy('Focality');
+            const adenopathyStats = recurrenceByTransform('Adenopathy', function(val) { return val !== 'No' ? 'Yes' : 'No'; });
+            const smokingStats = recurrenceByCustom('Smoking');
+            const thyroidFunc = countBy('Thyroid Function');
+
+            analytics = {
+                totalPatients: totalPatients,
+                recurrenceRate: recurrenceRate,
+                recurred: recurred,
+                excellentResponse: excellentResponse,
+                avgAge: avgAge,
+                minAge: minAge,
+                maxAge: maxAge,
+                genderDist: genderDist,
+                riskDist: riskDist,
+                responseDist: responseDist,
+                stageDist: stageDist,
+                tStageDist: tStageDist,
+                nStageDist: nStageDist,
+                recurrenceByRisk: recurrenceByRisk,
+                recurrenceByN: recurrenceByN,
+                recurrenceByT: recurrenceByT,
+                pathologyDist: pathologyDist,
+                focalityStats: focalityStats,
+                adenopathyStats: adenopathyStats,
+                smokingStats: smokingStats,
+                thyroidFunc: thyroidFunc
+            };
+        }
+
+        function countBy(field) {
+            const result = {};
+            data.forEach(function(d) {
+                const key = d[field];
+                result[key] = (result[key] || 0) + 1;
+            });
+            return result;
+        }
+
+        function recurrenceBy(field) {
+            const result = {};
+            data.forEach(function(d) {
+                const key = d[field];
+                if (!result[key]) result[key] = { total: 0, recurred: 0 };
+                result[key].total++;
+                if (d.Recurred === 'Yes') result[key].recurred++;
+            });
+            
+            return Object.keys(result).map(function(key) {
+                const stats = result[key];
+                return {
+                    name: key,
+                    rate: ((stats.recurred / stats.total) * 100).toFixed(1),
+                    total: stats.total,
+                    recurred: stats.recurred
+                };
+            });
+        }
+
+        function recurrenceByTransform(field, transform) {
+            const result = {};
+            data.forEach(function(d) {
+                const key = transform(d[field]);
+                if (!result[key]) result[key] = { total: 0, recurred: 0 };
+                result[key].total++;
+                if (d.Recurred === 'Yes') result[key].recurred++;
+            });
+            
+            return Object.keys(result).map(function(key) {
+                const stats = result[key];
+                return {
+                    name: key,
+                    rate: ((stats.recurred / stats.total) * 100).toFixed(1),
+                    total: stats.total,
+                    recurred: stats.recurred
+                };
+            });
+        }
+
+        function recurrenceByCustom(field) {
+            const result = {};
+            data.forEach(function(d) {
+                const key = d[field] === 'Yes' ? 'Current Smoker' : 'Non-Smoker';
+                if (!result[key]) result[key] = { total: 0, recurred: 0 };
+                result[key].total++;
+                if (d.Recurred === 'Yes') result[key].recurred++;
+            });
+            
+            return Object.keys(result).map(function(key) {
+                const stats = result[key];
+                return {
+                    name: key,
+                    rate: ((stats.recurred / stats.total) * 100).toFixed(1),
+                    total: stats.total
+                };
+            });
+        }
+
+        function renderDashboard() {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('kpiContainer').style.display = 'grid';
+            document.getElementById('primaryCharts').style.display = 'grid';
+            document.getElementById('tnmCharts').style.display = 'grid';
+            document.getElementById('prognosticCharts').style.display = 'grid';
+            document.getElementById('clinicalCharts').style.display = 'grid';
+            document.getElementById('demographicsCharts').style.display = 'grid';
+            document.getElementById('insightsPanel').style.display = 'block';
+
+            renderKPIs();
+            renderCharts();
+            renderListItems();
+            renderInsights();
+        }
+
+        function renderKPIs() {
+            const kpis = [
+                { label: 'Total Patients', value: analytics.totalPatients, icon: '👥', color: 'blue' },
+                { label: 'Excellent Response', value: analytics.excellentResponse + '%', icon: '✓', color: 'green' },
+                { label: 'Recurrence Rate', value: analytics.recurrenceRate + '%', subtext: analytics.recurred + ' patients', icon: '⚠', color: 'orange' },
+                { label: 'Mean Age at Dx', value: analytics.avgAge, subtext: 'years', icon: '📊', color: 'purple' }
+            ];
+
+            const container = document.getElementById('kpiContainer');
+            let html = '';
+            kpis.forEach(function(kpi) {
+                html += '<div class="kpi-card ' + kpi.color + '">';
+                html += '<div class="kpi-icon">' + kpi.icon + '</div>';
+                html += '<div class="kpi-label">' + kpi.label + '</div>';
+                html += '<div class="kpi-value">' + kpi.value + '</div>';
+                if (kpi.subtext) {
+                    html += '<div class="kpi-subtext">' + kpi.subtext + '</div>';
+                }
+                html += '</div>';
+            });
+            container.innerHTML = html;
+
+            document.getElementById('totalPatientsText').textContent = analytics.totalPatients;
+            document.getElementById('ageRangeText').textContent = analytics.minAge + '–' + analytics.maxAge;
+        }
+
+        function renderCharts() {
+            const chartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { labels: { font: { size: 12 } } }
+                }
+            };
+
+            // Risk Distribution
+            if (chartInstances.risk) chartInstances.risk.destroy();
+            const riskLabels = Object.keys(analytics.riskDist);
+            const riskValues = Object.values(analytics.riskDist);
+            chartInstances.risk = new Chart(document.getElementById('riskChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: riskLabels,
+                    datasets: [{
+                        data: riskValues,
+                        backgroundColor: ['#0f172a', '#1e40af', '#3b82f6']
+                    }]
+                },
+                options: chartOptions
+            });
+
+            // Recurrence by Risk
+            if (chartInstances.recByRisk) chartInstances.recByRisk.destroy();
+            const recRiskData = analytics.recurrenceByRisk.slice().sort(function(a, b) { return parseFloat(b.rate) - parseFloat(a.rate); });
+            chartInstances.recByRisk = new Chart(document.getElementById('recurrenceByRiskChart'), {
+                type: 'bar',
+                data: {
+                    labels: recRiskData.map(function(d) { return d.name; }),
+                    datasets: [{
+                        label: 'Recurrence %',
+                        data: recRiskData.map(function(d) { return parseFloat(d.rate); }),
+                        backgroundColor: '#dc2626'
+                    }]
+                },
+                options: Object.assign({}, chartOptions, {
+                    indexAxis: 'y',
+                    scales: { x: { beginAtZero: true, max: 100 } }
+                })
+            });
+
+            // Response Distribution
+            if (chartInstances.response) chartInstances.response.destroy();
+            const responseLabels = Object.keys(analytics.responseDist);
+            const responseValues = Object.values(analytics.responseDist);
+            chartInstances.response = new Chart(document.getElementById('responseChart'), {
+                type: 'bar',
+                data: {
+                    labels: responseLabels,
+                    datasets: [{
+                        label: 'Patients',
+                        data: responseValues,
+                        backgroundColor: '#16a34a'
+                    }]
+                },
+                options: chartOptions
+            });
+
+            // T-Stage
+            if (chartInstances.tStage) chartInstances.tStage.destroy();
+            const tOrder = ['T1a', 'T1b', 'T2', 'T3a', 'T3b', 'T4a', 'T4b'];
+            const tLabels = tOrder.filter(function(t) { return analytics.tStageDist[t]; });
+            const tValues = tLabels.map(function(t) { return analytics.tStageDist[t]; });
+            chartInstances.tStage = new Chart(document.getElementById('tStageChart'), {
+                type: 'bar',
+                data: {
+                    labels: tLabels,
+                    datasets: [{
+                        label: 'Patients',
+                        data: tValues,
+                        backgroundColor: '#7c3aed'
+                    }]
+                },
+                options: chartOptions
+            });
+
+            // N-Stage
+            if (chartInstances.nStage) chartInstances.nStage.destroy();
+            const nOrder = ['N0', 'N1a', 'N1b'];
+            const nLabels = nOrder.filter(function(n) { return analytics.nStageDist[n]; });
+            const nValues = nLabels.map(function(n) { return analytics.nStageDist[n]; });
+            chartInstances.nStage = new Chart(document.getElementById('nStageChart'), {
+                type: 'bar',
+                data: {
+                    labels: nLabels,
+                    datasets: [{
+                        label: 'Patients',
+                        data: nValues,
+                        backgroundColor: '#4f46e5'
+                    }]
+                },
+                options: chartOptions
+            });
+
+            // AJCC Stage
+            if (chartInstances.stage) chartInstances.stage.destroy();
+            const stageOrder = ['I', 'II', 'III', 'IVA', 'IVB'];
+            const stageLabels = stageOrder.filter(function(s) { return analytics.stageDist[s]; });
+            const stageValues = stageLabels.map(function(s) { return analytics.stageDist[s]; });
+            chartInstances.stage = new Chart(document.getElementById('stageChart'), {
+                type: 'bar',
+                data: {
+                    labels: stageLabels,
+                    datasets: [{
+                        label: 'Patients',
+                        data: stageValues,
+                        backgroundColor: '#0891b2'
+                    }]
+                },
+                options: chartOptions
+            });
+
+            // Recurrence by T
+            if (chartInstances.recByT) chartInstances.recByT.destroy();
+            chartInstances.recByT = new Chart(document.getElementById('recurrenceByTChart'), {
+                type: 'bar',
+                data: {
+                    labels: analytics.recurrenceByT.map(function(d) { return d.name; }),
+                    datasets: [{
+                        label: 'Recurrence %',
+                        data: analytics.recurrenceByT.map(function(d) { return parseFloat(d.rate); }),
+                        backgroundColor: '#e11d48'
+                    }]
+                },
+                options: Object.assign({}, chartOptions, {
+                    scales: { y: { beginAtZero: true, max: 100 } }
+                })
+            });
+
+            // Recurrence by N
+            if (chartInstances.recByN) chartInstances.recByN.destroy();
+            chartInstances.recByN = new Chart(document.getElementById('recurrenceByNChart'), {
+                type: 'bar',
+                data: {
+                    labels: analytics.recurrenceByN.map(function(d) { return d.name; }),
+                    datasets: [{
+                        label: 'Recurrence %',
+                        data: analytics.recurrenceByN.map(function(d) { return parseFloat(d.rate); }),
+                        backgroundColor: '#d97706'
+                    }]
+                },
+                options: Object.assign({}, chartOptions, {
+                    scales: { y: { beginAtZero: true, max: 100 } }
+                })
+            });
+
+            // Gender
+            if (chartInstances.gender) chartInstances.gender.destroy();
+            const genderMap = { 'F': 'Female', 'M': 'Male' };
+            const genderLabels = Object.keys(analytics.genderDist).map(function(k) { return genderMap[k] || k; });
+            const genderValues = Object.values(analytics.genderDist);
+            chartInstances.gender = new Chart(document.getElementById('genderChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: genderLabels,
+                    datasets: [{
+                        data: genderValues,
+                        backgroundColor: ['#ec4899', '#3b82f6']
+                    }]
+                },
+                options: chartOptions
+            });
+        }
+
+        function renderListItems() {
+            renderPathology();
+            renderFocality();
+            renderAdenopathy();
+            renderSmoking();
+            renderThyroid();
+        }
+
+        function renderPathology() {
+            const sorted = Object.entries(analytics.pathologyDist)
+                .sort(function(a, b) { return b[1] - a[1]; })
+                .slice(0, 6);
+            
+            let html = '';
+            sorted.forEach(function(item) {
+                const name = item[0];
+                const count = item[1];
+                const pct = ((count / analytics.totalPatients) * 100).toFixed(1);
+                html += '<div class="stat-row fuchsia">';
+                html += '<span class="stat-label">' + name + '</span>';
+                html += '<span class="stat-value fuchsia">' + count + ' (' + pct + '%)</span>';
+                html += '</div>';
+            });
+            document.getElementById('pathologyContainer').innerHTML = html;
+        }
+
+        function renderFocality() {
+            let html = '';
+            analytics.focalityStats.forEach(function(f) {
+                html += '<div style="margin-bottom: 16px; padding: 12px; background: #f0fdfa; border-radius: 6px;">';
+                html += '<div style="display: flex; justify-content: space-between; margin-bottom: 8px;">';
+                html += '<span class="stat-label">' + f.name + '</span>';
+                html += '<span class="badge teal">n=' + f.total + '</span>';
+                html += '</div>';
+                html += '<div class="progress-bar">';
+                html += '<div class="progress-fill" style="width: ' + f.rate + '%; background: #0d9488;"></div>';
+                html += '</div>';
+                html += '<div style="font-size: 12px; color: #475569; margin-top: 4px;">Recurrence: ' + f.rate + '%</div>';
+                html += '</div>';
+            });
+            document.getElementById('focalityContainer').innerHTML = html;
+        }
+
+        function renderAdenopathy() {
+            let html = '';
+            analytics.adenopathyStats.forEach(function(a) {
+                const label = a.name === 'Yes' ? 'With Adenopathy' : 'No Adenopathy';
+                html += '<div style="margin-bottom: 16px; padding: 12px; background: #fffbeb; border-radius: 6px;">';
+                html += '<div style="display: flex; justify-content: space-between; margin-bottom: 8px;">';
+                html += '<span class="stat-label">' + label + '</span>';
+                html += '<span class="badge orange">n=' + a.total + '</span>';
+                html += '</div>';
+                html += '<div class="progress-bar">';
+                html += '<div class="progress-fill" style="width: ' + a.rate + '%; background: #d97706;"></div>';
+                html += '</div>';
+                html += '<div style="font-size: 12px; color: #475569; margin-top: 4px;">Recurrence: ' + a.rate + '%</div>';
+                html += '</div>';
+            });
+            document.getElementById('adenopathyContainer').innerHTML = html;
+        }
+
+        function renderSmoking() {
+            let html = '';
+            analytics.smokingStats.forEach(function(s) {
+                html += '<div class="stat-row red">';
+                html += '<span class="stat-label">' + s.name + ' <span class="badge" style="background: #fee2e2; color: #991b1b;">n=' + s.total + '</span></span>';
+                html += '<span class="stat-value red">' + s.rate + '%</span>';
+                html += '</div>';
+            });
+            document.getElementById('smokingContainer').innerHTML = html;
+        }
+
+        function renderThyroid() {
+            const sorted = Object.entries(analytics.thyroidFunc)
+                .sort(function(a, b) { return b[1] - a[1]; });
+            
+            let html = '';
+            sorted.forEach(function(item) {
+                const name = item[0];
+                const count = item[1];
+                html += '<div class="stat-row lime">';
+                html += '<span class="stat-label">' + name + '</span>';
+                html += '<span class="stat-value lime">' + count + '</span>';
+                html += '</div>';
+            });
+            document.getElementById('thyroidContainer').innerHTML = html;
+        }
+
+        function renderInsights() {
+            const n0Rec = analytics.recurrenceByN.find(function(x) { return x.name === 'N0'; });
+            const n1bRec = analytics.recurrenceByN.find(function(x) { return x.name === 'N1b'; });
+            const highRisk = analytics.recurrenceByRisk.find(function(x) { return x.name === 'High'; });
+            const femaleCount = analytics.genderDist['F'] || 0;
+            const femalePct = ((femaleCount / analytics.totalPatients) * 100).toFixed(0);
+            const multiRec = analytics.focalityStats.find(function(f) { return f.name === 'Multi-Focal'; });
+            const uniRec = analytics.focalityStats.find(function(f) { return f.name === 'Uni-Focal'; });
+
+            document.getElementById('n0Recurrence').textContent = n0Rec ? n0Rec.rate : '?';
+            document.getElementById('n1bRecurrence').textContent = n1bRec ? n1bRec.rate : '?';
+            document.getElementById('highRiskRecurred').textContent = highRisk ? highRisk.recurred : '?';
+            document.getElementById('highRiskTotal').textContent = highRisk ? highRisk.total : '?';
+            document.getElementById('femalePct').textContent = femalePct;
+            document.getElementById('multiRecurrence').textContent = multiRec ? multiRec.rate : '?';
+            document.getElementById('uniRecurrence').textContent = uniRec ? uniRec.rate : '?';
+        }
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+        });
+    </script>
+</body>
+</html>

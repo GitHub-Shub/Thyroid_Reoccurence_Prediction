@@ -534,3 +534,11 @@ weighted avg       0.92      0.92      0.92        77
  * Running on http://192.168.31.119:5000
 2025-10-24 15:05:36,526 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
 2025-10-24 15:05:40,701 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 15:05:40] "GET / HTTP/1.1" 200 -
+2025-10-24 22:51:43,125 - preprocess - INFO - Model and preprocessor loaded successfully
+2025-10-24 22:51:43,125 - preprocess - INFO - Starting Flask web app
+2025-10-24 22:51:43,148 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.31.119:5000
+2025-10-24 22:51:43,148 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-24 22:51:49,807 - werkzeug - INFO - 127.0.0.1 - - [24/Oct/2025 22:51:49] "GET / HTTP/1.1" 200 -
